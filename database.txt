@@ -1,0 +1,19 @@
+
+
+user account database
+username, name, password, email, employee (boolean), admin (boolean), locked (boolean)
+
+per user table (name is their username)
+timestamp, expense, revenue
+
+
+
+
+
+
+
+
+
+
+
+

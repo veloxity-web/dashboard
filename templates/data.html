@@ -1,0 +1,43 @@
+{% block content %}
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Data</title>
+    <style>
+        body {
+            font-family: Arial, sans-serif;
+            padding: 20px;
+            font-size: 0.9rem;
+        }
+
+        /* ... (other styles remain unchanged) ... */
+    </style>
+</head>
+<body>
+
+<div class="table-container">
+    <table>
+        <thead>
+            <tr>
+                <th>Date/Time</th>
+                <th>Revenue</th>
+                <th>Expense</th>
+                <th>{{ username }}</th>
+            </tr>
+        </thead>
+        <tbody>
+    {% for entry in data %}
+    <tr class="dropdown-row">
+        <td>{{ entry[0] }}</td>  <!-- Assuming timestamp is the first element -->
+        <td>{{ entry[1] }}</td>  <!-- Assuming expense is the second element -->
+        <td>{{ entry[2] }}</td>  <!-- Assuming revenue is the third element -->
+    </tr>
+{% endfor %}
+        </tbody>
+    </table>
+</div>
+
+</body>
+</html>
+{% endblock %}
