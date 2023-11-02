@@ -1,14 +1,35 @@
 <!DOCTYPE html>
 <html lang="en">
 <head>
-    <meta charset="UTF-8">
-    <title>login</title>
+  <meta charset="UTF-8">
+  <title>Veloxity Login</title>
+  <link rel="stylesheet" href="/static/styles.css">
 </head>
 <body>
-
-<form action="/login" method="post">
-    <input type="username" name="username" placeholder="username">
-  <input type="submit" value="login"></form>
-
+  <div class="VeloxityLogin">
+    <div class="ForgotYourEmail">
+      Forgot your something? Email <a href="mailto:eddie@veloxity.org"><span class="highlight">eddie@veloxity.org</span></a>
+    </div>
+    <div class="Box">
+      <form class="Rectangle1" action="/login" method="post">
+        <div class="Heading">
+          <div class="WelcomeBack">Welcome Back</div>
+          <div class="LogInHere">Log In Here</div>
+        </div>
+        <div class="InputWrapper Email">
+          <img class="icon" src="/static/emailcolor.png" alt="Email Icon">
+          <input class="InputField" type="text" name="username" placeholder="Email">
+        </div>
+        <div class="InputWrapper Password">
+          <img class="icon" src="/static/lockcolor.png" alt="Password Icon">
+          <input class="InputField" type="password" name="password" placeholder="Password">
+        </div>
+        <button type="submit" class="SignIn">
+          Sign in
+        </button>
+      </form>
+    </div>
+    <img class="Logo" height="49" width="216" src="/static/VeloxityLargePNG.png" alt="Logo">
+  </div>
 </body>
 </html>

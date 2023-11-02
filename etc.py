@@ -11,12 +11,26 @@ from dbConnect import *
 
 
 def apisubmitdata(expense, revenue, id):
-    intData = int(data)
+    print ("etc api called")
     try:
-        connection = dbc()
+        expense = float(expense)
+        revenue = float(revenue)
+    except ValueError:
+        print("Invalid input: expense and revenue must be convertible to float.")
+        return False
+    try:
+
+
+        connection = database()
+        print("connected")
         cursor = connection.cursor()
-        cursor.execute(f"UPDATE data SET data = {intData} WHERE username = {id}")
+        print("cursor created")
+        # print(expense + ", " + revenue)
+        cursor.execute(f"INSERT INTO {id} (timestamp, expense, revenue) VALUES (NOW(), {expense}, {revenue})")
         connection.commit()
+        print("submit success")
+        # if error in updating, find and print error
+
         return True
     except:
         print("Error updating data for " + id)
@@ -56,16 +70,7 @@ def createtable(id):
         print("Error creating table for " + id)
         return False
 
-def submitdata(expense, revenue, id):
-    try:
-        connection = database()
-        cursor = connection.cursor()
-        #insert data into table
-        cursor.execute(f"INSERT INTO {id} (timestamp, expense, revenue) VALUES (NOW(), {expense}, {revenue})")
-        return True
-    except:
-        print("Error submitting data for " + id)
-        return False
+
 
 
 def fetchdata(id):

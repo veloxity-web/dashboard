@@ -2,60 +2,65 @@
 <html lang="en">
 <head>
     <meta charset="UTF-8">
-    <title>Veloxity Customer Portal</title>
+    <title>Veloxity</title>
+    <link rel="preconnect" href="https://fonts.googleapis.com">
+    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+    <link href="https://fonts.googleapis.com/css2?family=Young+Serif&display=swap" rel="stylesheet">
     <style>
-        /* Header styles */
-        header {
-            background-color: #0070FF;
-            color: white;
-            padding: 15px;
-            text-align: left;
-            font-size: 24px;
+        /* Font */
+        body, h1, h2, p {
+            font-family: 'Young Serif', serif;
         }
+        /* Dark Theme */
+        body, main {
+            background-color: #1e1e1e;
+            color: #ffffff;
+            margin: 10px;
+            padding: 0;
+
+        }
+        header {
+            background-color: #9951c3;
+            padding: 1em;
+        }
+        /* Accent Color */
+        a, .accent {
+            color: #fd5e53;
+        }
+        /* Login Button */
         .login-button {
-            float: right;
-            background-color: white;
-            color: #0070FF;
+            background-color: #fd5e53;
+            color: white;
             padding: 10px 20px;
             border: none;
+            border-radius: 5px;
             cursor: pointer;
         }
-        /* Main content styles */
-        .main-content {
+        /* Sticky Footer */
+        footer {
+            background-color: #1e1e1e;
+            color: #ffffff;
             text-align: center;
-            margin-top: 50px;
-            font-size: 24px;
-        }
-        /* Call to action styles */
-        .cta-button {
-            background-color: #0070FF;
-            color: white;
-            padding: 15px 30px;
-            border: none;
-            cursor: pointer;
-            margin-top: 30px;
+            padding: 1em;
+            position: fixed;
+            bottom: 0;
+            width: 100%;
         }
     </style>
 </head>
 <body>
-
-    <!-- Header -->
     <header>
-        Veloxity
-        <button class="login-button">login</button>
+        <h1>Veloxity</h1>
+        <a href="/login"><button class="login-button">Login</button></a>
     </header>
-
-    <!-- Main Content -->
-    <div class="main-content">
-        Welcome to the Veloxity Customer Portal
-    </div>
-
-    <!-- Call to Action -->
-    <div class="main-content">
-        <button class="cta-button" onclick="window.location.href='your_target_page.html'">
-            Click Here to Continue
-        </button>
-    </div>
-
+    <main>
+        <div class="otherbody">
+            <h2>Welcome to the Veloxity Customer Portal</h2>
+            <p>We're glad you're here.</p>
+        </div>
+    </main>
+    <footer>
+        <p>&copy; 2023 Veloxity. All rights reserved.</p>
+    </footer>
 </body>
 </html>

@@ -13,7 +13,7 @@ def dbc():
     try:
         connection = pymysql.connect(
             host="localhost",
-            port=32769,
+            port=55001,
             user="root",
             password="84271",
             database="test",
@@ -27,7 +27,7 @@ def database():
     try:
         connection = pymysql.connect(
             host="localhost",
-            port=32769,
+            port=55001,
             user="root",
             password="84271",
             database="data",

@@ -29,17 +29,22 @@ def login():
     elif request.method == "POST":
         print("User is using POST Request. Logging in.")
         # login stuff
-        username = request.form["username"]
-        session['ID'] = username
-        if newLogin(username):
+
+        session['ID'] = request.form["username"]
+        if newLogin(session['ID']):
             print("User does not have an existing password.")
             return redirect(url_for("create_password"))
-        elif newLogin(username) is None:
-            print("User does not exist. Redirecting to index.")
-            return redirect(url_for("index"))
-        elif newLogin(username) is False:
-            print("User has a password. Redirecting to login.")
-            return redirect(url_for("password"))
+        if confirmPassword(session['ID'], request.form["password"]):
+            if newLogin(session['ID']) is None:
+                print("User does not exist. Redirecting to index.")
+                return redirect(url_for("index"))
+            elif newLogin(session['ID']) is False:
+                print("User has a password. Redirecting to login.")
+                session["loggedIn"] = True
+                return redirect(url_for("home"))
+        else:
+            print("User has entered an incorrect password.")
+            return redirect(url_for("login"))
     else:
         print("Rendering ID input template.")
         return render_template("login.html")
@@ -52,7 +57,7 @@ def create_password():
             return redirect(url_for("home"))
 
     else:
-        return render_template("create_password.html")
+        return render_template("password.html")
 
 
 @veloxity.route("/password", methods=["GET", "POST"])
@@ -83,7 +88,7 @@ def logout():
 @veloxity.route("/home")
 def home():
     if "loggedIn" in session:
-        return render_template("home.html", username=session['ID'])
+        return render_template("home.html")
     else:
         return redirect(url_for("login"))
 
