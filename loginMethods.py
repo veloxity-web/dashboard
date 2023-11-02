@@ -1,25 +1,12 @@
-#
-#   Developed by Eddie Gu for Veloxity
-#   All rights reserved
-#   Unauthorized distribution or use is strictly prohibited
-#   @kyrofx on GitHub
-from dbConnect import *
-from flask import *
+# Developed by Eddie Gu for Veloxity, 2023
+# Unauthorized distribution or use is strictly prohibited
+# All Rights Reserved
+# @kyrofx on GitHub and Discord
 
-
-
-
-
-
-######################################################################################################################
-###  F U N C T I O N S  ##############################################################################################
-######################################################################################################################
-######################################################################################################################
-######################################################################################################################
-########################################################################################################## :3 MAFIA ##
-######################################################################################################################
+from dbConnect import dbc, database
 
 def newLogin(username):
+# Checks if a user's password exists in the database.
     connection = dbc()
     if connection is None:
         print("Failed to connect to database.")
@@ -39,8 +26,8 @@ def newLogin(username):
         else:
             return True
 
-
 def createPassword(username, password):
+# Submit a password to the database for new users.
     try:
         connection = dbc()
         cursor = connection.cursor()
@@ -50,8 +37,8 @@ def createPassword(username, password):
     except:
         return False
 
-
 def confirmPassword(username, password):
+# Confirm a user's password.
     try:
         connection = dbc()
         cursor = connection.cursor()

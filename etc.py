@@ -1,16 +1,12 @@
-#
-#   Developed by Eddie Gu for Veloxity
-#   All rights reserved
-#   Unauthorized distribution or use is strictly prohibited
-#   @kyrofx on GitHub
+# Developed by Eddie Gu for Veloxity, 2023
+# Unauthorized distribution or use is strictly prohibited
+# All Rights Reserved
+# @kyrofx on GitHub and Discord
 
-from dbConnect import *
-
-
-# needs fix for new datastructure
-
+from dbConnect import dbc, database
 
 def apisubmitdata(expense, revenue, id):
+    # API for submitting data. This needs to be updated in accordance with the new database structure and plans.
     print ("etc api called")
     try:
         expense = float(expense)
@@ -19,30 +15,23 @@ def apisubmitdata(expense, revenue, id):
         print("Invalid input: expense and revenue must be convertible to float.")
         return False
     try:
-
-
         connection = database()
         print("connected")
         cursor = connection.cursor()
         print("cursor created")
-        # print(expense + ", " + revenue)
         cursor.execute(f"INSERT INTO {id} (timestamp, expense, revenue) VALUES (NOW(), {expense}, {revenue})")
         connection.commit()
         print("submit success")
-        # if error in updating, find and print error
-
         return True
     except:
         print("Error updating data for " + id)
         return False
 
-
 def findtable(id):
+# Finds if a table exists for the user.
     try:
         connection = database()
         cursor = connection.cursor()
-
-        # Check if the table exists
         cursor.execute("SELECT count(*) FROM information_schema.tables WHERE table_name = %s", (id,))
         if cursor.fetchone()[0] == 1:
             cursor.execute(f"SELECT * FROM {id}")
@@ -59,6 +48,7 @@ def findtable(id):
 
 
 def createtable(id):
+# Make a table for a user.
     try:
         connection = database()
         cursor = connection.cursor()
@@ -70,10 +60,8 @@ def createtable(id):
         print("Error creating table for " + id)
         return False
 
-
-
-
 def fetchdata(id):
+# Fetch data from the user's table.
     try:
         connection = database()
         cursor = connection.cursor()

@@ -1,15 +1,12 @@
-#
-#   Developed by Eddie Gu for Veloxity
-#   All rights reserved
-#   Unauthorized distribution or use is strictly prohibited
-#   @kyrofx on GitHub
-
-
-
+# Developed by Eddie Gu for Veloxity, 2023
+# Unauthorized distribution or use is strictly prohibited
+# All Rights Reserved
+# @kyrofx on GitHub and Discord
 
 import pymysql
 
 def dbc():
+# Database connection for user login
     try:
         connection = pymysql.connect(
             host="localhost",
@@ -23,7 +20,9 @@ def dbc():
     except pymysql.MySQLError as error:
         print(f"Error connecting to database (test): {error}")
         return None
+
 def database():
+# Database connection for user data / storage
     try:
         connection = pymysql.connect(
             host="localhost",
