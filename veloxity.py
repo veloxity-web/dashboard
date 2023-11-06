@@ -14,10 +14,10 @@ from dbConnect import db, init_app, User, UserData
 
 veloxity = Flask(__name__)
 veloxity.secret_key = "VqMXxcFU00cP9oi7hKEoUjyvmNGUWjQO7dcr6QRE0hzwCTMy1p"
-veloxity.config['SQLALCHEMY_DATABASE_URI'] = 'sqlite:////Users/kyro/Documents/github/webserver/database/data.db'
+veloxity.config['SQLALCHEMY_DATABASE_URI'] = 'sqlite:///database/data.db'
 veloxity.config['SQLALCHEMY_BINDS'] = {
-    'users': 'sqlite:////Users/kyro/Documents/github/webserver/database/users.db',
-    'data': 'sqlite:////Users/kyro/Documents/github/webserver/database/data.db'
+    'users': 'sqlite:///database/users.db',
+    'data': 'sqlite:///database/data.db'
 }
 
 veloxity.config['SQLALCHEMY_TRACK_MODIFICATIONS'] = False
