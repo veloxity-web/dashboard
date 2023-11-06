@@ -1,86 +1,78 @@
-#
-#   Developed by Eddie Gu for Veloxity
-#   All rights reserved
+#   Developed by Eddie Gu for Veloxity, 2023
 #   Unauthorized distribution or use is strictly prohibited
-#   @kyrofx on GitHub
+#   All Rights Reserved
+#   @kyrofx on GitHub and Discord
+#
+#   File History: 2023-9-26 Initial Commit (Eddie Gu)
+#   File History: 2023-11-6 Last Commit (Eddie Gu)
+#
 
-from dbConnect import *
+import datetime
+from sqlalchemy import Table, Column, Integer, Float, DateTime, MetaData, select
+from dbConnect import db
 
+metadata = MetaData()
 
-# needs fix for new datastructure
+def get_user_table(id):
+    # Dynamically define a table for the user's data.
+    return Table(
+        id, metadata,
+        Column('id', Integer, primary_key=True),
+        Column('timestamp', DateTime, default=datetime.datetime.utcnow),
+        Column('income', Float),
+        Column('expense', Float),
+        Column('profit', Float),
+        Column('tax', Float),
+        extend_existing=True
+    )
 
-
-def apisubmitdata(expense, revenue, id):
-    intData = int(data)
+def submitdata(email, income, expense, profit, tax):
+    print("API called")
     try:
-        connection = dbc()
-        cursor = connection.cursor()
-        cursor.execute(f"UPDATE data SET data = {intData} WHERE username = {id}")
-        connection.commit()
+        user_table = get_user_table(email)
+        # Ensure the table is created
+        metadata.create_all(db.engine, tables=[user_table])
+        ins = user_table.insert().values(income=income, expense=expense, profit=profit, tax=tax)
+        db.engine.execute(ins)
+        print("Submit success")
         return True
-    except:
-        print("Error updating data for " + id)
+    except Exception as e:
+        print(f"Error updating data for {email}: {e}")
         return False
 
-
-def findtable(id):
+def findtable(email):
     try:
-        connection = database()
-        cursor = connection.cursor()
-
-        # Check if the table exists
-        cursor.execute("SELECT count(*) FROM information_schema.tables WHERE table_name = %s", (id,))
-        if cursor.fetchone()[0] == 1:
-            cursor.execute(f"SELECT * FROM {id}")
-            result = cursor.fetchone()
-            return result is not None
-        else:
-            return False
+        user_table = get_user_table(email)
+        sel = select([user_table])
+        conn = db.engine.connect()
+        result = conn.execute(sel)
+        data_exists = result.fetchone() is not None
+        conn.close()
+        return data_exists
     except Exception as e:
         print(f"An error occurred: {e}")
         return False
-    finally:
-        if connection:
-            connection.close()
 
-
-def createtable(id):
+def createtable(email):
     try:
-        connection = database()
-        cursor = connection.cursor()
-        #create table with timestamp, expense, revenue
-        cursor.execute(f"CREATE TABLE {id} (timestamp DATETIME, expense decimal(10,2), revenue decimal(10,2))")
-        cursor.execute(f"INSERT INTO {id} (timestamp, expense, revenue) VALUES (NOW(), 0, 0)")
+        user_table = get_user_table(email)
+        # This will create the table if it doesn't exist
+        metadata.create_all(db.engine, tables=[user_table])
+        print(f"Table for {email} created successfully.")
         return True
-    except:
-        print("Error creating table for " + id)
-        return False
-
-def submitdata(expense, revenue, id):
-    try:
-        connection = database()
-        cursor = connection.cursor()
-        #insert data into table
-        cursor.execute(f"INSERT INTO {id} (timestamp, expense, revenue) VALUES (NOW(), {expense}, {revenue})")
-        return True
-    except:
-        print("Error submitting data for " + id)
-        return False
-
-
-def fetchdata(id):
-    try:
-        connection = database()
-        cursor = connection.cursor()
-        cursor.execute("SELECT count(*) FROM information_schema.tables WHERE table_name = %s", (id,))
-        if cursor.fetchone()[0] == 1:
-            cursor.execute(f"SELECT * FROM {id}")
-            data = cursor.fetchall()
-            return data
-        else:
-            print(f"No table found for {id}")
-            return []
     except Exception as e:
-        print(f"Error fetching data for {id}: {e}")
-        return []
+        print(f"Error creating table for {email}: {e}")
+        return False
 
+def fetchdata(email):
+    try:
+        user_table = get_user_table(email)
+        sel = select([user_table])
+        conn = db.engine.connect()
+        result = conn.execute(sel)
+        data = result.fetchall()
+        conn.close()
+        return data
+    except Exception as e:
+        print(f"Error fetching data for {email}: {e}")
+        return []

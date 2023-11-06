@@ -1,61 +1,28 @@
 <!DOCTYPE html>
 <html lang="en">
 <head>
-    <meta charset="UTF-8">
-    <title>Veloxity Customer Portal</title>
-    <style>
-        /* Header styles */
-        header {
-            background-color: #0070FF;
-            color: white;
-            padding: 15px;
-            text-align: left;
-            font-size: 24px;
-        }
-        .login-button {
-            float: right;
-            background-color: white;
-            color: #0070FF;
-            padding: 10px 20px;
-            border: none;
-            cursor: pointer;
-        }
-        /* Main content styles */
-        .main-content {
-            text-align: center;
-            margin-top: 50px;
-            font-size: 24px;
-        }
-        /* Call to action styles */
-        .cta-button {
-            background-color: #0070FF;
-            color: white;
-            padding: 15px 30px;
-            border: none;
-            cursor: pointer;
-            margin-top: 30px;
-        }
-    </style>
+  <meta charset="UTF-8">
+  <title>Welcome to Veloxity</title>
+  <link rel="stylesheet" href="/static/styles.css">
 </head>
 <body>
-
-    <!-- Header -->
-    <header>
-        Veloxity
-        <button class="login-button">login</button>
+  <div class="VeloxityLanding">
+    <header class="LandingHeader">
+      <img class="Logo" height="49" width="216" src="/static/VeloxityLargePNG.png" alt="Veloxity Logo">
+      <nav class="LandingNav">
+        <a href="https://veloxity.org">Main Website</a>
+        <a href="mailto:impact@veloxity.org">Email Us</a>
+        <a href="/login">Login</a>
+      </nav>
     </header>
-
-    <!-- Main Content -->
-    <div class="main-content">
-        Welcome to the Veloxity Customer Portal
-    </div>
-
-    <!-- Call to Action -->
-    <div class="main-content">
-        <button class="cta-button" onclick="window.location.href='your_target_page.html'">
-            Click Here to Continue
-        </button>
-    </div>
-
+    <main class="LandingMain">
+      <h1>Welcome to Veloxity</h1>
+      <p>Your dreams, delivered.</p>
+      <a href="/login" class="MainCTA">Login</a>
+    </main>
+    <footer class="LandingFooter">
+      Need help? <a href="mailto:eddie@veloxity.org"><span class="highlight">eddie@veloxity.org</span></a>
+    </footer>
+  </div>
 </body>
 </html>

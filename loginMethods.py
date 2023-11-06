@@ -1,66 +1,51 @@
-#
-#   Developed by Eddie Gu for Veloxity
-#   All rights reserved
+#   Developed by Eddie Gu for Veloxity, 2023
 #   Unauthorized distribution or use is strictly prohibited
-#   @kyrofx on GitHub
-from dbConnect import *
-from flask import *
+#   All Rights Reserved
+#   @kyrofx on GitHub and Discord
+#
+#   File History: 2023-9-26 Initial Commit (Eddie Gu)
+#   File History: 2023-11-6 Last Commit (Eddie Gu)
+#
 
+import bcrypt
+from dbConnect import db, User, UserData
 
-
-
-
-
-######################################################################################################################
-###  F U N C T I O N S  ##############################################################################################
-######################################################################################################################
-######################################################################################################################
-######################################################################################################################
-########################################################################################################## :3 MAFIA ##
-######################################################################################################################
-
-def newLogin(username):
-    connection = dbc()
-    if connection is None:
-        print("Failed to connect to database.")
-        return None
-    cursor = connection.cursor()
-    cursor.execute(f"SELECT * FROM users WHERE username = '{username}'")
-    result = cursor.fetchone()
-    if result is None:
+def newLogin(email):
+    # Checks if a user's password exists in the database.
+    user = User.query.filter_by(email=email).first()
+    if user is None:
         # username does not exist
         return None
-    else:
-        # username exists
-        cursor.execute(f"SELECT * FROM users where username = '{username}' and password is NULL")
-        result = cursor.fetchone()
-        if result is None:
-            return False
-        else:
-            return True
-
-
-def createPassword(username, password):
-    try:
-        connection = dbc()
-        cursor = connection.cursor()
-        cursor.execute(f"UPDATE users SET password = '{password}' WHERE username = '{username}'")
-        connection.commit()
+    elif user.HSPass is None:
+        # Password is not set for the user
         return True
-    except:
+    else:
+        # username exists and password is set
         return False
 
+def createPassword(email, password):
+    # Submit a password to database
+    print(f"Creating password for {email}")
+    hashed_pw = bcrypt.hashpw(password.encode('utf-8'), bcrypt.gensalt())
+    user = User.query.filter_by(email=email).first()
+    if user:
+        user.HSPass = hashed_pw
+        db.session.commit()
+        print(f"Password created for {email}")
+        return True
+    else:
+        print(f"User {email} not found.")
+        return False
 
-def confirmPassword(username, password):
-    try:
-        connection = dbc()
-        cursor = connection.cursor()
-        cursor.execute(f"SELECT * FROM users WHERE username = '{username}' and password = '{password}'")
-        connection.commit()
-        result = cursor.fetchone()
-        if result is None:
-            return False
-        else:
+def confirmPassword(email, password):
+    # Confirm a user's password.
+    user = User.query.filter_by(email=email).first()
+    if user:
+        # Assuming the `password` field is the hashed password stored in the database
+        if bcrypt.checkpw(password.encode('utf-8'), user.HSPass.encode('utf-8')):
             return True
-    except:
+        else:
+            return False
+    else:
+        print(f"User {email} not found.")
         return False

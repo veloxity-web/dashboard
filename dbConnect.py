@@ -1,39 +1,43 @@
-#
-#   Developed by Eddie Gu for Veloxity
-#   All rights reserved
+#   Developed by Eddie Gu for Veloxity, 2023
 #   Unauthorized distribution or use is strictly prohibited
-#   @kyrofx on GitHub
+#   All Rights Reserved
+#   @kyrofx on GitHub and Discord
+#
+#   File History: 2023-9-26 Initial Commit (Eddie Gu)
+#   File History: 2023-11-6 Last Commit (Eddie Gu)
+#
+
+from flask_sqlalchemy import SQLAlchemy
+
+# Initialize the SQLAlchemy object
+db = SQLAlchemy()
 
 
+# User model
+class User(db.Model):
+    __bind_key__ = 'users'  # This will link the model to the users SQLite database
+    email = db.Column(db.String(100), unique=True, primary_key=True)
+    name = db.Column(db.String(50), nullable=False)
+    HSPass = db.Column(db.String(100), nullable=True)
+    employee = db.Column(db.Boolean, nullable=False, default=False)
+    administrator = db.Column(db.Boolean, nullable=False, default=False)
+    AccLock = db.Column(db.Boolean, nullable=False, default=False)
 
 
-import pymysql
+# UserData model
+class UserData(db.Model):
+    __bind_key__ = 'data'  # This will link the model to the data SQLite database
+    id = db.Column(db.Integer, nullable = False, primary_key=True, autoincrement=True)
+    timestamp = db.Column(db.DateTime, nullable=False)
+    income = db.Column(db.Float, nullable=False)
+    expense = db.Column(db.Float, nullable=False)
+    profit = db.Column(db.Float, nullable=False)
+    tax = db.Column(db.Float, nullable=False)
 
-def dbc():
-    try:
-        connection = pymysql.connect(
-            host="localhost",
-            port=32769,
-            user="root",
-            password="84271",
-            database="test",
-            autocommit=True
-        )
-        return connection
-    except pymysql.MySQLError as error:
-        print(f"Error connecting to database (test): {error}")
-        return None
-def database():
-    try:
-        connection = pymysql.connect(
-            host="localhost",
-            port=32769,
-            user="root",
-            password="84271",
-            database="data",
-            autocommit=True
-        )
-        return connection
-    except pymysql.MySQLError as error:
-        print(f"Error connecting to database (data): {error}")
-        return None
+
+# Initialize app with Flask-SQLAlchemy
+def init_app(app):
+    db.init_app(app)
+    with app.app_context():
+        # This will create all tables for the binds specified in the SQLALCHEMY_BINDS config variable
+        db.create_all()
