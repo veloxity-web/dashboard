@@ -1,14 +1,14 @@
 {
+  "version": 2,
+  "name": "flask-app",
   "builds": [
-    {
-      "src": "veloxity.py",
-      "use": "@vercel/python"
-    }
+    { "src": "/veloxity.py", "use": "@vercel/python" }
   ],
   "routes": [
-    {
-      "src": "/(.*)",
-      "dest": "veloxity.py"
-    }
-  ]
+    { "src": "/static/(.*)", "dest": "/static/$1" },
+    { "src": "/(.*)", "dest": "/$1" }
+  ],
+  "env": {
+    "FLASK_APP": "veloxity.py"
+  }
 }
