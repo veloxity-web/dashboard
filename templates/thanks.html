@@ -1,0 +1,143 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>Thank You Page</title>
+
+<style>
+body {
+  font-family: 'Libre Franklin', sans-serif;
+  margin: 0;
+  display: flex;
+  justify-content: center;
+  align-items: center;
+  height: 100vh;
+  background: #F2F6FF;
+}
+
+.VeloxityThanks {
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  gap: 23px;
+}
+
+.Rectangle7 {
+  width: 216px;
+  height: 49px;
+}
+
+.Box {
+  width: 464px;
+  height: 255px;
+  position: relative;
+  background: white;
+  box-shadow: 5px 5px 20px rgba(0, 0, 0, 0.25);
+  border-radius: 20px;
+}
+
+.Rectangle1 {
+  width: 100%;
+  height: 100%;
+  position: absolute;
+  top: 0;
+  left: 0;
+}
+
+.Heading {
+  width: 100%;
+  position: absolute;
+  top: 27px;
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+}
+
+.ThankYou {
+  width: 228px;
+  text-align: center;
+  color: black;
+  font-size: 30px;
+  font-weight: 700;
+}
+
+.TheDataHasBeenSuccessfullyUploaded {
+  width: 297px;
+  text-align: center;
+  color: #B6C3D7;
+  font-size: 15px;
+  font-weight: 700;
+}
+
+.Button {
+  width: 325px;
+  height: 50px;
+  line-height: 50px;
+  position: absolute;
+  bottom: 27px;
+  left: 69px;
+  background: #FD5E53;
+  color: white;
+  text-align: center;
+  border-radius: 10px;
+  font-size: 15px;
+  font-weight: 700;
+  cursor: pointer;
+}
+
+.Logout {
+  background: none;
+  border: 3px #FD5E53 solid;
+  color: #FD5E53;
+}
+
+.SubmitAnotherForm {
+  bottom: 97px; /* Adjusted to stack above the Logout button */
+}
+
+@media (max-width: 768px) {
+  body {
+    padding: 20px;
+    height: auto;
+  }
+  .VeloxityThanks {
+    width: 100%;
+    gap: 16px;
+  }
+  .Box {
+    width: 100%;
+    height: auto;
+    padding-bottom: 55%; /* Maintains aspect ratio */
+  }
+  .Button {
+    width: calc(100% - 138px); /* Adjusts based on the Box padding */
+  }
+}
+
+@media (max-width: 480px) {
+  .ThankYou {
+    font-size: 24px;
+  }
+  .TheDataHasBeenSuccessfullyUploaded {
+    font-size: 12px;
+  }
+}
+</style>
+
+</head>
+<body>
+<div class="VeloxityThanks">
+  <img class="Rectangle7" src="/static/VeloxityLargePNG.png" alt="Veloxity Logo" />
+  <div class="Box">
+    <div class="Rectangle1"></div>
+    <div class="Heading">
+      <div class="ThankYou">Thank you!</div>
+      <div class="TheDataHasBeenSuccessfullyUploaded">The data has been successfully uploaded.</div>
+    </div>
+    <a class="Button Logout" href="/home">Home</a>
+    <a class="Button SubmitAnotherForm" href="/data">Submit another form</a>
+  </div>
+</div>
+</body>
+</html>

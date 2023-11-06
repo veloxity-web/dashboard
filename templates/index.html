@@ -1,66 +1,28 @@
 <!DOCTYPE html>
 <html lang="en">
 <head>
-    <meta charset="UTF-8">
-    <title>Veloxity</title>
-    <link rel="preconnect" href="https://fonts.googleapis.com">
-    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
-    <link href="https://fonts.googleapis.com/css2?family=Young+Serif&display=swap" rel="stylesheet">
-    <style>
-        /* Font */
-        body, h1, h2, p {
-            font-family: 'Young Serif', serif;
-        }
-        /* Dark Theme */
-        body, main {
-            background-color: #1e1e1e;
-            color: #ffffff;
-            margin: 10px;
-            padding: 0;
-
-        }
-        header {
-            background-color: #9951c3;
-            padding: 1em;
-        }
-        /* Accent Color */
-        a, .accent {
-            color: #fd5e53;
-        }
-        /* Login Button */
-        .login-button {
-            background-color: #fd5e53;
-            color: white;
-            padding: 10px 20px;
-            border: none;
-            border-radius: 5px;
-            cursor: pointer;
-        }
-        /* Sticky Footer */
-        footer {
-            background-color: #1e1e1e;
-            color: #ffffff;
-            text-align: center;
-            padding: 1em;
-            position: fixed;
-            bottom: 0;
-            width: 100%;
-        }
-    </style>
+  <meta charset="UTF-8">
+  <title>Welcome to Veloxity</title>
+  <link rel="stylesheet" href="/static/styles.css">
 </head>
 <body>
-    <header>
-        <h1>Veloxity</h1>
-        <a href="/login"><button class="login-button">Login</button></a>
+  <div class="VeloxityLanding">
+    <header class="LandingHeader">
+      <img class="Logo" height="49" width="216" src="/static/VeloxityLargePNG.png" alt="Veloxity Logo">
+      <nav class="LandingNav">
+        <a href="https://veloxity.org">Main Website</a>
+        <a href="mailto:impact@veloxity.org">Email Us</a>
+        <a href="/login">Login</a>
+      </nav>
     </header>
-    <main>
-        <div class="otherbody">
-            <h2>Welcome to the Veloxity Customer Portal</h2>
-            <p>We're glad you're here.</p>
-        </div>
+    <main class="LandingMain">
+      <h1>Welcome to Veloxity</h1>
+      <p>Your dreams, delivered.</p>
+      <a href="/login" class="MainCTA">Login</a>
     </main>
-    <footer>
-        <p>&copy; 2023 Veloxity. All rights reserved.</p>
+    <footer class="LandingFooter">
+      Need help? <a href="mailto:eddie@veloxity.org"><span class="highlight">eddie@veloxity.org</span></a>
     </footer>
+  </div>
 </body>
 </html>

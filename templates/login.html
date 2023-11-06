@@ -14,6 +14,11 @@
       <form class="Rectangle1" action="/login" method="post">
         <div class="Heading">
           <div class="WelcomeBack">Welcome Back</div>
+          {% if error %}
+            <div class="Error">
+              <span class="highlight">Error:</span> {{ error }}
+            </div>
+          {% endif %}
           <div class="LogInHere">Log In Here</div>
         </div>
         <div class="InputWrapper Email">

@@ -1,79 +1,78 @@
-# Developed by Eddie Gu for Veloxity, 2023
-# Unauthorized distribution or use is strictly prohibited
-# All Rights Reserved
-# @kyrofx on GitHub and Discord
+#   Developed by Eddie Gu for Veloxity, 2023
+#   Unauthorized distribution or use is strictly prohibited
+#   All Rights Reserved
+#   @kyrofx on GitHub and Discord
+#
+#   File History: 2023-9-26 Initial Commit (Eddie Gu)
+#   File History: 2023-11-6 Last Commit (Eddie Gu)
+#
 
-from dbConnect import dbc, database
+import datetime
+from sqlalchemy import Table, Column, Integer, Float, DateTime, MetaData, select
+from dbConnect import db
 
-def apisubmitdata(expense, revenue, id):
-    # API for submitting data. This needs to be updated in accordance with the new database structure and plans.
-    print ("etc api called")
+metadata = MetaData()
+
+def get_user_table(id):
+    # Dynamically define a table for the user's data.
+    return Table(
+        id, metadata,
+        Column('id', Integer, primary_key=True),
+        Column('timestamp', DateTime, default=datetime.datetime.utcnow),
+        Column('income', Float),
+        Column('expense', Float),
+        Column('profit', Float),
+        Column('tax', Float),
+        extend_existing=True
+    )
+
+def submitdata(email, income, expense, profit, tax):
+    print("API called")
     try:
-        expense = float(expense)
-        revenue = float(revenue)
-    except ValueError:
-        print("Invalid input: expense and revenue must be convertible to float.")
-        return False
-    try:
-        connection = database()
-        print("connected")
-        cursor = connection.cursor()
-        print("cursor created")
-        cursor.execute(f"INSERT INTO {id} (timestamp, expense, revenue) VALUES (NOW(), {expense}, {revenue})")
-        connection.commit()
-        print("submit success")
+        user_table = get_user_table(email)
+        # Ensure the table is created
+        metadata.create_all(db.engine, tables=[user_table])
+        ins = user_table.insert().values(income=income, expense=expense, profit=profit, tax=tax)
+        db.engine.execute(ins)
+        print("Submit success")
         return True
-    except:
-        print("Error updating data for " + id)
+    except Exception as e:
+        print(f"Error updating data for {email}: {e}")
         return False
 
-def findtable(id):
-# Finds if a table exists for the user.
+def findtable(email):
     try:
-        connection = database()
-        cursor = connection.cursor()
-        cursor.execute("SELECT count(*) FROM information_schema.tables WHERE table_name = %s", (id,))
-        if cursor.fetchone()[0] == 1:
-            cursor.execute(f"SELECT * FROM {id}")
-            result = cursor.fetchone()
-            return result is not None
-        else:
-            return False
+        user_table = get_user_table(email)
+        sel = select([user_table])
+        conn = db.engine.connect()
+        result = conn.execute(sel)
+        data_exists = result.fetchone() is not None
+        conn.close()
+        return data_exists
     except Exception as e:
         print(f"An error occurred: {e}")
         return False
-    finally:
-        if connection:
-            connection.close()
 
-
-def createtable(id):
-# Make a table for a user.
+def createtable(email):
     try:
-        connection = database()
-        cursor = connection.cursor()
-        #create table with timestamp, expense, revenue
-        cursor.execute(f"CREATE TABLE {id} (timestamp DATETIME, expense decimal(10,2), revenue decimal(10,2))")
-        cursor.execute(f"INSERT INTO {id} (timestamp, expense, revenue) VALUES (NOW(), 0, 0)")
+        user_table = get_user_table(email)
+        # This will create the table if it doesn't exist
+        metadata.create_all(db.engine, tables=[user_table])
+        print(f"Table for {email} created successfully.")
         return True
-    except:
-        print("Error creating table for " + id)
+    except Exception as e:
+        print(f"Error creating table for {email}: {e}")
         return False
 
-def fetchdata(id):
-# Fetch data from the user's table.
+def fetchdata(email):
     try:
-        connection = database()
-        cursor = connection.cursor()
-        cursor.execute("SELECT count(*) FROM information_schema.tables WHERE table_name = %s", (id,))
-        if cursor.fetchone()[0] == 1:
-            cursor.execute(f"SELECT * FROM {id}")
-            data = cursor.fetchall()
-            return data
-        else:
-            print(f"No table found for {id}")
-            return []
+        user_table = get_user_table(email)
+        sel = select([user_table])
+        conn = db.engine.connect()
+        result = conn.execute(sel)
+        data = result.fetchall()
+        conn.close()
+        return data
     except Exception as e:
-        print(f"Error fetching data for {id}: {e}")
+        print(f"Error fetching data for {email}: {e}")
         return []
-
