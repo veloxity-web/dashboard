@@ -8,7 +8,7 @@
 #
 
 import datetime
-from sqlalchemy import Table, Column, Integer, Float, DateTime, MetaData, select
+from sqlalchemy import Table, Column, Integer, Float, DateTime, MetaData, select, Boolean, create_engine
 from dbConnect import db
 
 metadata = MetaData()
@@ -76,3 +76,36 @@ def fetchdata(email):
     except Exception as e:
         print(f"Error fetching data for {email}: {e}")
         return []
+
+from sqlalchemy import MetaData, Table, create_engine
+
+def makeaccount(email, name, employee, administrator):
+    print("API called to create account")
+    try:
+        # Get the engine for the 'users' database
+        engine = db.get_engine(bind='users')
+
+        # Reflect the existing 'user' table structure from the 'users' database
+        metadata = MetaData()
+        user_table = Table('user', metadata, autoload_with=engine)
+
+        # Convert employee and administrator to boolean
+        employee_bool = employee.lower() == 'true'
+        administrator_bool = administrator.lower() == 'true'
+
+        # Set the AccLock value for new accounts
+        acc_lock_value = False
+
+        # Insert the new account data into the table
+        with engine.connect() as connection:
+            ins = user_table.insert().values(email=email, name=name,
+                                             employee=employee_bool, administrator=administrator_bool,
+                                             AccLock=acc_lock_value)
+            connection.execute(ins)
+            connection.commit()
+
+        print(f"Account creation successful for {email}")
+        return True
+    except Exception as e:
+        print(f"Error creating account for {email}: {e}")
+        return False

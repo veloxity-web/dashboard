@@ -8,16 +8,20 @@
 #
 
 from flask import Flask, session, redirect, url_for, render_template, request
-from etc import findtable, createtable, fetchdata, submitdata
+from etc import findtable, createtable, fetchdata, submitdata, makeaccount
 from loginMethods import newLogin, confirmPassword, createPassword
 from dbConnect import db, init_app, User, UserData
+import os
 
 veloxity = Flask(__name__)
 veloxity.secret_key = "VqMXxcFU00cP9oi7hKEoUjyvmNGUWjQO7dcr6QRE0hzwCTMy1p"
-veloxity.config['SQLALCHEMY_DATABASE_URI'] = 'sqlite:///database/data.db'
+os.chdir('/Users/kyro/Documents/github/webserver/')
+print("Absolute path for data.db:", os.path.abspath("database/data.db"))
+print("Absolute path for users.db:", os.path.abspath("database/users.db"))
+veloxity.config['SQLALCHEMY_DATABASE_URI'] = f'sqlite:///{os.path.abspath("database/users.db")}'
 veloxity.config['SQLALCHEMY_BINDS'] = {
-    'users': 'sqlite:///database/users.db',
-    'data': 'sqlite:///database/data.db'
+    'users': f'sqlite:///{os.path.abspath("database/users.db")}',
+    'data': f'sqlite:///{os.path.abspath("database/data.db")}'
 }
 
 veloxity.config['SQLALCHEMY_TRACK_MODIFICATIONS'] = False
@@ -110,6 +114,20 @@ def thanks():
     if "loggedIn" in session:
         return render_template("thanks.html")
     return redirect(url_for("login"))
+
+@veloxity.route("/createaccount", methods=["GET", "POST"])
+def cacc():
+    # Renders the create account page.
+    if request.method == "POST":
+        if "loggedIn" in session:
+            email = request.form["email"]
+            name = request.form["name"]
+            employee = request.form["employee"]
+            administrator = request.form["administrator"]
+            makeaccount(email, name, employee, administrator)
+        else:
+            return redirect(url_for("login"))
+    return render_template("createaccount.html")
 
 if __name__ == "__main__":
     veloxity.run(host="0.0.0.0", port=5000, debug=True)

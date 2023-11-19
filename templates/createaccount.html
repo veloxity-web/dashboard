@@ -1,0 +1,29 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <title>Create Account</title>
+</head>
+<body>
+    <h1>Create Account</h1>
+    <form action="/createaccount" method="post">
+        <div>
+            <label for="email">Email:</label>
+            <input type="email" id="email" name="email" required>
+        </div>
+        <div>
+            <label for="name">Name:</label>
+            <input type="text" id="name" name="name" required>
+        </div>
+        <div>
+            <label for="employee">Employee:</label>
+            <input type="checkbox" id="employee" name="employee" value="true">
+        </div>
+        <div>
+            <label for="administrator">Administrator:</label>
+            <input type="checkbox" id="administrator" name="administrator" value="true">
+        </div>
+        <button type="submit">Create Account</button>
+    </form>
+</body>
+</html>
